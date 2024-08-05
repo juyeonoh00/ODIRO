@@ -1,17 +1,12 @@
 package odiro.service.member;
 
 import lombok.RequiredArgsConstructor;
-import odiro.config.auth.PrincipalDetails;
-import odiro.config.jwt.JwtAuthenticationService;
 import odiro.config.jwt.TokenDto;
+import odiro.config.oauth2.OAuthAttributes;
 import odiro.domain.member.Authority;
 import odiro.dto.member.SignInRequestDto;
 import odiro.dto.member.SignUpDto;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,6 +45,13 @@ public class MemberService {
 //        }
         Member member = signUpDto.toEntity();
         member.passwordEncoding(passwordEncoder);
+        memberRepository.save(member);
+        return member;
+    }
+    @Transactional
+    public Member signUp(OAuthAttributes oAuthAttributes) {
+//        oAuthAttributes.setAuthority(Authority.valueOf("ROLE_USER"));
+        Member member = oAuthAttributes.toEntity();
         memberRepository.save(member);
         return member;
     }

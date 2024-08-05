@@ -25,12 +25,14 @@ public class Member extends BaseTimeEntity {
     @Column(length = 25)
     private String email;
 
-    @Column(length = 225, nullable = false)
+    @Column(length = 225)
     private String password;
 
     @Column(length = 20, nullable = false)
     private String username;
 
+    @Enumerated(EnumType.STRING)
+    private Authority authority;
     @Column
     private String profileImage;
 
@@ -43,8 +45,6 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "participant")
     private List<PlanMember> joinedPlan = new ArrayList<>();
 
-    @Enumerated(EnumType.STRING)
-    private Authority authority;
 
     //수정 필요
     @Column(nullable = true)
